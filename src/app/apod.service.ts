@@ -20,6 +20,9 @@ export class ApodService {
   }
 
   getApod(date:string): Observable<Apod>{
+    
+    console.log(" apod.service.ts - getApod - random date = ", date);
+
     return this.http.get<Apod>(`${this.url}&date=${date}`);
   }
 }

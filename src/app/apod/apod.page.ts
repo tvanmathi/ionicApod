@@ -20,16 +20,25 @@ export class ApodPage {
   ) {}
 
   ionViewWillEnter() {
+
     this.route.params.subscribe(
       (params)=>{
         if(params['date']){
-          this.getApod(params['date']);
-        }else{
-          // this.getApod(new Date().toISOString().slice(0, 10));
 
-          var date=new Date;
-          date.setDate(date.getDate()-1);
-          this.getApod(date.toISOString().slice(0, 10));         
+          this.getApod(params['date']);
+
+        }else{
+
+          // this.getApod(new Date().toISOString().slice(0, 10));
+         
+          var date = this.randomDate(     // Generate random date.
+            new Date(1995,5,16),
+            new Date()
+          );
+
+          console.log(" apod.page.ts - ionViewWillEnter - random date = ", date);
+
+          this.getApod(date);             // Get APOD for the given random date.               
         }
       }
     );
@@ -47,16 +56,20 @@ export class ApodPage {
   }
 
   getApod(date:string):void {
+ 
+    console.log(" apod.page.ts - getApod - random date = ", date);
+     
     this.apodService.getApod(date)
       .subscribe((result:any) => {
 
         this.apod = result;
 
-        this.date = this.randomDate(
-          new Date(1995,5,16),
-          new Date()
-        );
+        // this.date = this.randomDate(   // Random date in response cb?   
+        //   new Date(1995,5,16),         // Purpose of the local var "this.date"?
+        //   new Date()
+        // );
 
+        console.log("apod.page.ts - getApod - result = ", result); // Log the response.
       });
   }
 
